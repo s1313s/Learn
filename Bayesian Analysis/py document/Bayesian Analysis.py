@@ -2,38 +2,38 @@ import numpy as np
 import matplotlib.pyplot as plt
 import emcee
 
-# 设置图形参数
+# Setting Graphics Parameters
 plt.rcParams['figure.figsize'] = (20, 10)
 
-# 加载数据
+# Loading Data
 ice_data = np.loadtxt('./Bayesian Analysis/dataset/data 2.txt')
 age, T = ice_data[:, 2], ice_data[:, 4]
 
-# 定义模型
+# Defining Model
 def model(theta, age=age):
     a1, a2, a3, p1, p2, p3, T0 = theta
     return a1 * np.sin(2 * np.pi * age / p1) + a2 * np.sin(2 * np.pi * age / p2) + a3 * np.sin(
         2 * np.pi * age / p3) + T0
 
-# 定义对数似然函数
+# Defining The Logarithmic Likelihood Function
 def lnlike(theta, x, y, yerr):
     return -0.5 * np.sum(((y - model(theta, x)) / yerr) ** 2)
 
-# 定义先验概率函数
+# Defining A Prior Probability Function
 def lnprior(theta):
     a1, a2, a3, p1, p2, p3, T0 = theta
     if 0.0 < a1 < 5.0 and 0.0 < a2 < 5.0 and 0.0 < a3 < 5.0 and 10000. < p1 < 200000 and 10000. < p2 < 200000 and 10000. < p3 < 200000 and -10.0 < T0 < 0:
         return 0.0
     return -np.inf
 
-# 定义后验概率函数
+# Defining A Posterior Probability Function
 def lnprob(theta, x, y, yerr):
     lp = lnprior(theta)
     if not np.isfinite(lp):
         return -np.inf
     return lp + lnlike(theta, x, y, yerr)
 
-# MCMC采样主函数
+# MCMC Sampling Main Function
 def run_mcmc(p0, nwalkers, niter, ndim, lnprob, data):
     sampler = emcee.EnsembleSampler(nwalkers, ndim, lnprob, args=data)
 
@@ -46,7 +46,8 @@ def run_mcmc(p0, nwalkers, niter, ndim, lnprob, data):
 
     return sampler, pos, prob, state
 
-# 从采样结果中随机选取一些样本并生成模型
+# Randomly Selecting Some Samples From The Sampling Results 
+# And Generating A Model
 def sample_walkers(nsamples, flattened_chain):
     draw = np.random.choice(len(flattened_chain), size=nsamples, replace=False)
     thetas = flattened_chain[draw]
@@ -55,7 +56,7 @@ def sample_walkers(nsamples, flattened_chain):
     med_model = np.median(models, axis=0)
     return med_model, spread
 
-# 设置数据误差，并运行主程序
+# Setting The Data Error And Running The Main Program
 Terr = 0.05 * np.mean(T)
 data = (age, T, Terr)
 nwalkers = 240
@@ -65,7 +66,8 @@ ndim = len(initial)
 p0 = [initial + 1e-7 * np.random.randn(ndim) for _ in range(nwalkers)]
 sampler, pos, prob, state = run_mcmc(p0, nwalkers, niter, ndim, lnprob, data)
 
-# 提取采样结果和最大似然参数，并生成图形
+# Sampling Results And Maximum Likelihood Parameters Are Extracted 
+# And Graphs Are Generated
 flattened_chain = sampler.flatchain
 theta_max = flattened_chain[np.argmax(sampler.flatlnprobability)]
 best_fit_model = model(theta_max)
