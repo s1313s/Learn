@@ -1,4 +1,4 @@
-# Linear Regression
+# Linear Regression Practice
 
 ## Project Description
 
@@ -22,14 +22,14 @@ These values show that the sum and mean of residuals are very close to zero when
 
 The project contains the following：
 
-1. [Sound Code](../Py%20document/Linear%20Regression.py)
+1. [Sound Code](../Py%20Document/Linear%20Regression.py)
 
 2. [Dataset](../Dataset/data%201.txt)
 
 3. **Effect Picture：**
-![Effect Picture](Effect Picture.png)
+![Effect Picture](Effect%20Picture.png)
 
 4. **Residual Plot：**
-![Residual Plot](Residual Plot.png)
+![Residual Plot](Residual%20Plot.png)
 
 
