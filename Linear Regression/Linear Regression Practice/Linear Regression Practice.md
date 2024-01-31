@@ -22,7 +22,7 @@ These values show that the sum and mean of residuals are very close to zero when
 
 The project contains the following：
 
-1. [Sound Code](../py%20document/Linear%20Regression.py)
+1. [Source Code](../py%20document/Linear%20Regression.py)
 
 2. [Dataset](../dataset/data%201.txt)
 

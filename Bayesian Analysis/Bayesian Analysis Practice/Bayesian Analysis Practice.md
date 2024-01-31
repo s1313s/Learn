@@ -26,7 +26,7 @@ Maximum Likelihood Parameter：
 
 The project contains the following：：
 
-1. [Sound Code](../py%20document/Bayesian%20Analysis.py)
+1. [Source Code](../py%20document/Bayesian%20Analysis.py)
 
 2. [Dataset](../dataset/data%202.txt)
 
